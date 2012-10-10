@@ -44,6 +44,7 @@ function fillCommitLogs() {
             var cl = new CommitLog();
             cl.commit = line.substring(0, line.indexOf(' '));
             cl.log = line.substring(line.indexOf(' ')+1);
+            //TODO: check exists
             cl.keywords = createKeywords(cl.log);
             cl.url = 'https://github.com/caolan/async/commit/';
             cl.save(function(err, data) {

@@ -1,3 +1,4 @@
 commitlog
 =========
-blahblah
+ 커밋로그 작성에 도움이 될지도
+
