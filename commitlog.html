@@ -1,0 +1,33 @@
+<html>
+<head>
+    <title>commit log helper</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script>
+        var socket = io.connect('http://localhost:3000');
+        socket.on('search', function (data) {
+            var html = '';
+            data.results.forEach(function(cl) {
+                html += cl.log;
+                html += ' <a href="' + cl.url + cl.commit + '" target="_blank">[diff]</a>';
+                html += '<br />';
+            });
+            $("#resultsDiv").html(html);
+        });
+
+        $(function() {
+           $("#searchInput").keyup(function(obj) {
+               if (obj.srcElement.value.length < 3) {
+                   $("#resultsDiv").html('');
+                   return;
+               }
+               socket.emit('search', {"query": obj.srcElement.value});
+           });
+        });
+    </script>
+</head>
+<body>
+    <input type="text" id="searchInput"/><br />
+    <div id="resultsDiv"></div>
+</body>
+</html>
