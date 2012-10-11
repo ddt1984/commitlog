@@ -25,14 +25,17 @@ exec(command, function (err, stdout, stderr) {
 
         tasks.push(function(cl) {
             return function(callback) {
-                //TODO: check exists
-                cl.save(function(err, data) {
-                    callback(err);
+                CommitLog.find({commit:cl.commit, url:cl.url}, function(err, data) {
+                    if (data.length == 0) {
+                        cl.save(function(err, data) {
+                            callback(err);
+                        });
+                    } else { callback(err); }
                 });
             }
         }(cl));
     }
-    async.series(tasks, function(err, results) {
+    async.parallel(tasks, function(err, results) {
         if (err) console.log(err);
         process.exit(0);
     })

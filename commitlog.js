@@ -25,8 +25,11 @@ CommitLog.prototype.searchLogs = function(query, callback) {
 
 CommitLog.prototype.createKeywords = function() {
     if (this.log === null || this.log.length == 0) return;
-    this.keywords = this.log.split(' ').filter(function(item) {
-        return item.length >= 3;
+    var keywords = this.keywords;
+    this.log.split(' ').forEach(function(item) {
+        if (item.length < 3) return;
+        if (keywords.indexOf(item) != -1) return;
+        keywords.push(item);
     });
 }
 
